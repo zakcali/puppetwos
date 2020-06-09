@@ -11,4 +11,4 @@ Those links decribe, what how to use advanced search: http://images.webofknowled
 and http://images.webofknowledge.com/WOKRS534DR1/help/WOS/hp_advanced_examples.html
 
 # Usage
-This is a nodejs script, opens a chromw web browser in your computer, opens Web of Science search page (assuming that you have access to site), clicks "Advanced Search" list-item, enters a text in search box, then clicks search button, waits for the results, and takes a screenshot. Uncomment the line //    await browser.close() if you want program to close the Chrome browser.
+This is a nodejs script, opens a chrome web browser in your computer, opens Web of Science search page (assuming that you have access to site), clicks "Advanced Search" list-item, enters a text in search box, then clicks search button, waits for the results, and takes a screenshot. Uncomment the line //    await browser.close() if you want program to close the Chrome browser.
