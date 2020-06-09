@@ -29,11 +29,13 @@ try {
         })
 	
 	const link = await page.$('a[title="Use Advanced Search to Narrow Your Search to Specific Criteria"]')
-		if (link)    await link.click()
-	await page.waitForSelector('.Adv_formBoxesSearch');
-	await page.type('.Adv_formBoxesSearch', advtext)
-	await page.click('#search-button')
-	await page.waitForNavigation({waitUntil: 'networkidle2'});
+	if (link)    {
+		await link.click()
+		await page.waitForSelector('.Adv_formBoxesSearch');
+		await page.type('.Adv_formBoxesSearch', advtext)
+		await page.click('#search-button')
+		await page.waitForNavigation({waitUntil: 'networkidle2'});
+	}
 	await page.screenshot({path: screenshot})
 
 //    await browser.close()
