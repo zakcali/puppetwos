@@ -19,11 +19,11 @@ if(platform == "linux"){
 }
 try {
   (async () => {
-    const browser = await puppeteer.launch(options)
+	const browser = await puppeteer.launch(options)
 	const pages = await browser.pages()
-    const page = pages[0]
+	const page = pages[0]
 	await page.setViewport({ width: 1280, height: 1024 })
-    await page.goto('https://apps.webofknowledge.com', {waitUntil: 'networkidle2'}).catch(e => {
+	await page.goto('https://apps.webofknowledge.com', {waitUntil: 'networkidle2'}).catch(e => {
             console.error('WOS URL unreachable!');
             process.exit(2);
         })
@@ -32,9 +32,9 @@ try {
 		if (link)    await link.click()
 	await page.waitForSelector('.Adv_formBoxesSearch');
 	await page.type('.Adv_formBoxesSearch', advtext)
-    await page.click('#search-button')
+	await page.click('#search-button')
 	await page.waitForNavigation({waitUntil: 'networkidle2'});
-    await page.screenshot({path: screenshot})
+	await page.screenshot({path: screenshot})
 
 //    await browser.close()
     console.log('See screenshot: ' + screenshot)
