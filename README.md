@@ -14,5 +14,5 @@ and http://images.webofknowledge.com/WOKRS534DR1/help/WOS/hp_advanced_examples.h
 Small script in the proof folder is a proof of concept. This is a nodejs script, opens a chrome web browser in your computer, opens Web of Science search page (assuming that you have access to site), clicks "Advanced Search" list-item, enters a text in search box, then clicks search button, waits for the results, and takes a screenshot. Uncomment the line //    await browser.close() if you want program to close the Chrome browser.
 
 # Electron build
-Nodejs program, uses Electron, and can be packaged as a standalone program.
-Loads "advanced search query texts" from author-list.csv and department-list.csv files, creates lists for departments and academcians. When selected, a Chrome browser windows opens bu puppeteer, and displays the results from Web of Science. You must have access to the Web of Science site.  
+Nodejs, uses Electron, and can be packaged as a standalone program.
+Loads "advanced search query texts" from (url) author-list.csv and (url) department-list.csv files, creates lists for departments and academicians. When selected, a Chrome browser window opened by puppeteer, and displays the results from Web of Science. You must have access to the Web of Science site.  
