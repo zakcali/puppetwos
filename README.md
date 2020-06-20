@@ -14,4 +14,7 @@ and http://images.webofknowledge.com/WOKRS534DR1/help/WOS/hp_advanced_examples.h
 This is a nodejs script, opens a chrome web browser in your computer, opens Web of Science search page (assuming that you have access to site), clicks "Advanced Search" list-item, enters a text in search box, then clicks search button, waits for the results, and takes a screenshot. Uncomment the line //    await browser.close() if you want program to close the Chrome browser.
 
 # Final thoughts
-This small script is a proof of concept. I am planning to create an executable Electron program, which will run on user's computer. User will be able to select one of the "Advanced search texts", from a list, and query them on Web of Science.
+Small script in the proof folder is a proof of concept. 
+
+# Electron file
+Nodejs program, using Electron is a standalone program
