@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<!-- bu yazılım Dr. Zafer Akçalı tarafından oluşturulmuştur -->
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Web of Science'da Ayrıntılı Arama - PuppetWOS V1.1</title>
+<style>
+
+#selectAcademician
+{
+ width:520px;   
+}
+#selectDepartment
+{
+ width:520px;   
+}
+</style>
+
+  </head>
+  <body>
+Web of Science'da AdvancedSearch arama kutusuna yazılacak metni giriniz<br />
+	<textarea rows = "20" cols = "100" name = "Uzun Yazı" id="searchText"></textarea> <br />
+	<button onclick="openWOSw()">WOS arama sayfası</button> <br />  
+    Hazır arama metinleri. Seçerseniz sayfa başındaki kutuya aktarılacaktır. <br />  
+<select id="selectDepartment" onchange="copyQueryText(this.options[this.selectedIndex].value)">
+	<option value="">Anabilim / Bilim Dalı / Şehir Seçiniz</option>
+	<!-- rest is created by window.onload = async function()-->
+</select> 
+
+<br /> <br /> 
+<label for="Akademisyen seçimi">Akademisyen ismini veya bölümünü yazarak seçiniz</label>  <br />
+<input list="academicians" id="selectAcademician" oninput="copyAcademician()" name="acadname"/>  <!-- onchange dosesn't focus, use oninput -->
+<button onclick="clearAcademician()">Sil</button> 
+<datalist id="academicians">
+	<!-- rest is created by window.onload = async function()-->
+</datalist>
+<br />
+<script type="text/javascript">  
+var Papa = require('papaparse');
+let {remote} = require('electron');
+var queryT = [];
+var academics = [[],[]];
+var rid; // researcherId
+function copyQueryText(chosen) {
+	var i= Number (chosen);
+	document.getElementById('searchText').value=queryT[i];
+	remote.getGlobal("makeSearch")(queryT[i]);
+}
+
+function copyAcademician() {
+for (var i=0;i<academics.length;i++) {
+let acad = academics[i][2] + " "+ academics[i][3] + ", " + academics[i][4] + ", " + academics[i][5];
+		if (acad == document.getElementById('selectAcademician').value) 		
+		{ currentAcad = i;
+		rid = academics[i][7];
+		if (rid != '') { // if there is an researchId
+			ridQuery='AI='+rid
+			document.getElementById('searchText').value = ridQuery; 
+			remote.getGlobal("makeSearch") (ridQuery);
+			} else document.getElementById('searchText').value = '' // delete previous query if exists
+		break; }
+		}
+}
+
+function clearAcademician() {
+	document.getElementById('selectAcademician').value = "";
+	document.getElementById('selectAcademician').focus();
+}
+
+function openWOSw (){
+	let copyText = document.getElementById('searchText').value;
+	if (copyText != '') remote.getGlobal("makeSearch") (copyText) 
+}
+
+window.onload = async function() { 
+	
+//let csvurl= 'https://cors-anywhere.herokuapp.com/http://tip2.baskent.edu.tr/maya/department-list.csv'; // from home
+let csvurl= 'http://tip2.baskent.edu.tr/maya/department-list.csv'; // from server
+let response = await fetch (csvurl);
+let depCSV = await response.text();
+let results = Papa.parse(depCSV, {	//parse from csv text
+	skipEmptyLines: true
+});
+var selectList = document.getElementById('selectDepartment');
+ for (var i = 0; i < results.data.length; i++) {
+	if (results.data[i][0] != 'Department') { // Papa sometimes skips first (header) row, sometimes not, be sure to skip !
+		var option = document.createElement("option");
+		option.value = i; 
+		option.text = results.data[i][0]; // department name
+		selectList.appendChild(option); 
+		queryT[i] = results.data[i][1]; // query text
+			}
+		}
+// csvurl= 'https://cors-anywhere.herokuapp.com/http://tip2.baskent.edu.tr/maya/author-list.csv'; // from home
+csvurl= 'http://tip2.baskent.edu.tr/maya/author-list.csv'; // from server
+response = await fetch (csvurl);
+academicsCSV = await response.text();
+academicResults = Papa.parse(academicsCSV, {	//parse from csv text
+	skipEmptyLines: true
+});
+academics = academicResults.data; // Merkez
+var acadList = document.getElementById('academicians');		
+for (let i = 0; i < academics.length; i++) {
+		if (academicResults.data[i][0] != 'Merkez' && academicResults.data[i][0] != 'City') { // Papa sometimes skips first (header) row, sometimes not, be sure to skip !
+		let option = document.createElement("option");
+		option.value = academics[i][2] + " "+ academics[i][3] + ", " + academics[i][4] + ", " + academics[i][5]; // ad, soyad, ABD, BD
+		acadList.appendChild(option); 
+		}
+	}
+} // end of window.onload
+</script>
+</body>
+</html>
