@@ -16,5 +16,6 @@ This is a nodejs script, opens a chrome web browser in your computer, opens Web 
 # Final thoughts
 Small script in the proof folder is a proof of concept. 
 
-# Electron file
-Nodejs program, using Electron is a standalone program
+# Electron build
+Nodejs program, uses Electron, and packaged as a standalone program.
+Loads "advanced search query texts" from author-list.csv and department-list.csv files, creates lists for departments and academcians. When selected, a Chrome browser windows opens bu puppeteer, and displays the results from Web of Science. You must have access to the Web of Science site.  
