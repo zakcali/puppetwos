@@ -42,10 +42,11 @@ var linkSearch = null
 var pages = null
 var page = null
 var disconnected = false
-var selectorBox = '.Adv_formBoxesSearch'
+const selectorBox = '.Adv_formBoxesSearch'
+const selectorView = 'a[title="Click to view the results"]'
 
-var wosurl = 'https://apps.webofknowledge.com'
-var advurl = 'https://apps.webofknowledge.com/WOS_AdvancedSearch_input.do?product=WOS&search_mode=AdvancedSearch'
+const wosurl = 'https://apps.webofknowledge.com'
+const advurl = 'https://apps.webofknowledge.com/WOS_AdvancedSearch_input.do?product=WOS&search_mode=AdvancedSearch'
 
 global.makeSearch = function(advtext) {
 try {
@@ -87,12 +88,12 @@ try {
 		await linkSearch.click()
 		await page.waitForSelector(selectorBox);
 		await page.evaluate(selectorBox => {document.querySelector(selectorBox).value = "";}, selectorBox); // clear text area
-		await page.type('.Adv_formBoxesSearch', advtext)
+		await page.type(selectorBox, advtext)
 		await page.click('#search-button')
 		await page.waitForNavigation({waitUntil: 'networkidle2'});
 		if ((await page.$('#noRecordsDiv')) == null) { //if search found records
-			await page.waitForSelector('a[title="Click to view the results"]');
-			await page.click('a[title="Click to view the results"]')
+			await page.waitForSelector(selectorView);
+			await page.click(selectorView)
 		}
 
 		
@@ -103,12 +104,12 @@ try {
 //		await link.click()
 		await page.waitForSelector(selectorBox);
 		await page.evaluate(selectorBox => {document.querySelector(selectorBox).value = "";}, selectorBox); // clear text area
-		await page.type('.Adv_formBoxesSearch', advtext)
+		await page.type(selectorBox, advtext)
 		await page.click('#search-button')
 		await page.waitForNavigation({waitUntil: 'networkidle2'});
 		if ((await page.$('#noRecordsDiv')) == null) { //if search found records
-			await page.waitForSelector('a[title="Click to view the results"]');
-			await page.click('a[title="Click to view the results"]')
+			await page.waitForSelector(selectorView);
+			await page.click(selectorView)
 		}
 		}
 	linkSearch = await page.$('div[title="Back to previous page"]')
@@ -116,12 +117,12 @@ try {
 		page.goto(advurl)
 		await page.waitForSelector(selectorBox);
 		await page.evaluate(selectorBox => {document.querySelector(selectorBox).value = "";}, selectorBox); // clear text area
-		await page.type('.Adv_formBoxesSearch', advtext)
+		await page.type(selectorBox, advtext)
 		await page.click('#search-button')
 		await page.waitForNavigation({waitUntil: 'networkidle2'});
 		if ((await page.$('#noRecordsDiv')) == null) { //if search found records
-			await page.waitForSelector('a[title="Click to view the results"]');
-			await page.click('a[title="Click to view the results"]')
+			await page.waitForSelector(selectorView);
+			await page.click(selectorView)
 		}
 
 		}
