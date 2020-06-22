@@ -3,7 +3,7 @@
 <html>
   <head>
     <meta charset="UTF-8">
-    <title>Web of Science'da Ayrıntılı Arama - PuppetWOS V1.1</title>
+    <title>Web of Science'da Ayrıntılı Arama - PuppetWOS V1.2</title>
 <style>
 
 #selectAcademician
@@ -20,17 +20,18 @@
   <body>
 Web of Science'da AdvancedSearch arama kutusuna yazılacak metni giriniz<br />
 	<textarea rows = "20" cols = "100" name = "Uzun Yazı" id="searchText"></textarea> <br />
-	<button onclick="openWOSw()">WOS arama sayfası</button> <br />  
+	<button onclick="openWOSw()">Yukarıda yazanı ara</button> <br />  
     Hazır arama metinleri. Seçerseniz sayfa başındaki kutuya aktarılacaktır. <br />  
 <select id="selectDepartment" onchange="copyQueryText(this.options[this.selectedIndex].value)">
-	<option value="">Anabilim / Bilim Dalı / Şehir Seçiniz</option>
+	<option value="">Anabilim / Bilim Dalı / Şehir Seçiniz</option> 
 	<!-- rest is created by window.onload = async function()-->
 </select> 
-
+<button onclick="copyQueryText(document.getElementById('selectDepartment').options[document.getElementById('selectDepartment').selectedIndex].value)">Tekrar ara</button> 
 <br /> <br /> 
 <label for="Akademisyen seçimi">Akademisyen ismini veya bölümünü yazarak seçiniz</label>  <br />
 <input list="academicians" id="selectAcademician" oninput="copyAcademician()" name="acadname"/>  <!-- onchange dosesn't focus, use oninput -->
-<button onclick="clearAcademician()">Sil</button> 
+<button onclick="clearAcademician()">Sil</button> <button onclick="copyAcademician()">Tekrar ara</button> 
+
 <datalist id="academicians">
 	<!-- rest is created by window.onload = async function()-->
 </datalist>
