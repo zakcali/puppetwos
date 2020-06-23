@@ -39,6 +39,7 @@ function createWindow () {
 app.whenReady().then(createWindow)
 var browser = null
 var linkSearch = null  
+var	firstSearch = true // tick SCI, SSCI, AHCI once a Chrome session
 var pages = null
 var page = null
 var disconnected = false
@@ -54,6 +55,7 @@ try {
 	  if (browser == null || disconnected == true) {
 	browser = await puppeteer.launch(options)
 	disconnected = false // to prevent opening a new window for each query
+	firstSearch = true // to tick SCI, SSCI, and AHCI again
 	pages = await browser.pages()
 	page = pages[0]
 //	await page.setViewport({ width: 1366, height: 768 })
@@ -64,6 +66,15 @@ try {
 	browser.on('disconnected',async()=>{
     disconnected = true;
     })
+
+	}
+	 
+	linkSearch = await page.$('a[title="Use Advanced Search to Narrow Your Search to Specific Criteria"]')
+	if (linkSearch)    {
+		await linkSearch.click()
+	if (firstSearch) // tick SCI, SSCI, AHCI once
+	{
+	firstSearch = false // don't tick // tick SCI, SSCI, AHCI anymore
 	// show indexes
 	await page.waitForSelector('#settings-arrow');   
 	await page.click('#settings-arrow'); 
@@ -74,18 +85,14 @@ try {
 	await page.$eval('input[id="editionitemSSCI"]', check => check.checked = true)
 	await page.$eval('input[id="editionitemAHCI"]', check => check.checked = true)
 	
-	//remember checks
-	await page.evaluate(() => {
-    saveForm('WOS_AdvancedSearch_input_form')
-  });
+	//remember checks, do not use await !!!
+	page.evaluate(() => {
+		saveForm('WOS_AdvancedSearch_input_form')
+		});
 	//hide indexes
 	await page.waitForSelector('#settings-arrow');   
-	await page.click('#settings-arrow');
 	}
-	 
-	linkSearch = await page.$('a[title="Use Advanced Search to Narrow Your Search to Specific Criteria"]')
-	if (linkSearch)    {
-		await linkSearch.click()
+	await page.click('#settings-arrow');
 		await page.waitForSelector(selectorBox);
 		await page.evaluate(selectorBox => {document.querySelector(selectorBox).value = "";}, selectorBox); // clear text area
 		await page.type(selectorBox, advtext)
