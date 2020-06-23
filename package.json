@@ -1,6 +1,6 @@
 {
   "name": "puppetwos",
-  "version": "1.1.0",
+  "version": "1.2.2",
   "description": "WOS Advanced Search with puppeteer",
   "main": "main.js",
   "scripts": {
@@ -22,11 +22,11 @@
     "url": "https://github.com/zakcali/puppetwos/issues"
   },
   "homepage": "https://github.com/zakcali/puppetwos#readme",
+  "devDependencies": {
+    "electron": "^9.0.4"
+  },
   "dependencies": {
     "papaparse": "^5.2.0",
-    "puppeteer-core": "^3.3.0"
-  },
-  "devDependencies": {
-    "electron": "^9.0.3"
+    "puppeteer-core": "^4.0.0"
   }
 }
