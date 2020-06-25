@@ -91,8 +91,8 @@ try {
 		});
 	//hide indexes
 	await page.waitForSelector('#settings-arrow');   
-	}
 	await page.click('#settings-arrow');
+	}
 		await page.waitForSelector(selectorBox);
 		await page.evaluate(selectorBox => {document.querySelector(selectorBox).value = "";}, selectorBox); // clear text area
 		await page.type(selectorBox, advtext)
