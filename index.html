@@ -3,7 +3,7 @@
 <html>
   <head>
     <meta charset="UTF-8">
-    <title>Web of Science'da Ayrıntılı Arama - PuppetWOS V1.22</title>
+    <title>Web of Science'da Ayrıntılı Arama - PuppetWOS V1.3</title>
 <style>
 
 #selectAcademician
@@ -36,12 +36,14 @@ Web of Science'da AdvancedSearch arama kutusuna yazılacak metni giriniz<br />
 	<!-- rest is created by window.onload = async function()-->
 </datalist>
 <br />
+Sadece üniversitemdeki yayınlar <input type="checkbox" id="exclusiveUni"><br /> 
 <script type="text/javascript">  
 var Papa = require('papaparse');
 let {remote} = require('electron');
 var queryT = [];
 var academics = [[],[]];
 var rid; // researcherId
+const myUni = ' AND AD=(baskent univ)'
 function copyQueryText(chosen) {
 	var i= Number (chosen);
 	document.getElementById('searchText').value=queryT[i];
@@ -49,6 +51,8 @@ function copyQueryText(chosen) {
 }
 
 function copyAcademician() {
+// check if only university addressed publications of an academician to be searched
+var checkBox = document.getElementById("exclusiveUni"); 
 for (var i=0;i<academics.length;i++) {
 let acad = academics[i][2] + " "+ academics[i][3] + ", " + academics[i][4] + ", " + academics[i][5];
 		if (acad == document.getElementById('selectAcademician').value) 		
@@ -56,6 +60,9 @@ let acad = academics[i][2] + " "+ academics[i][3] + ", " + academics[i][4] + ", 
 		rid = academics[i][7];
 		if (rid != '') { // if there is an researchId
 			ridQuery='AI='+rid
+			if (checkBox.checked == true){
+				ridQuery=ridQuery+myUni;
+					} 
 			document.getElementById('searchText').value = ridQuery; 
 			remote.getGlobal("makeSearch") (ridQuery);
 			} else document.getElementById('searchText').value = '' // delete previous query if exists
