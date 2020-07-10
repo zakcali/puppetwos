@@ -28,7 +28,8 @@ Web of Science'da AdvancedSearch arama kutusuna yazılacak metni giriniz<br />
 </select> 
 <button onclick="copyQueryText(document.getElementById('selectDepartment').options[document.getElementById('selectDepartment').selectedIndex].value)">Tekrar ara</button> 
 <br /> <br /> 
-<label for="Akademisyen seçimi">Akademisyen ismini veya bölümünü yazarak seçiniz</label>  <br />
+Publons sitesine kayıt olunmuş, ResearcherId alınmış, WOS'daki yayınlar işaretlenmiş olmalıdır<br />  
+<label for="Akademisyen seçimi">Akademisyen ismini veya bölümünü yazarak seçiniz.</label>  <br />
 <input list="academicians" id="selectAcademician" oninput="copyAcademician()" name="acadname"/>  <!-- onchange dosesn't focus, use oninput -->
 <button onclick="clearAcademician()">Sil</button> <button onclick="copyAcademician()">Tekrar ara</button> 
 
