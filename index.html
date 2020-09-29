@@ -3,7 +3,7 @@
 <html>
   <head>
     <meta charset="UTF-8">
-    <title>Web of Science'da Ayrıntılı Arama - PuppetWOS V1.3</title>
+    <title>Web of Science'da Ayrıntılı Arama - PuppetWOS V1.4</title>
 <style>
 
 #selectAcademician
@@ -28,8 +28,7 @@ Web of Science'da AdvancedSearch arama kutusuna yazılacak metni giriniz<br />
 </select> 
 <button onclick="copyQueryText(document.getElementById('selectDepartment').options[document.getElementById('selectDepartment').selectedIndex].value)">Tekrar ara</button> 
 <br /> <br /> 
-Publons sitesine kayıt olunmuş, ResearcherId alınmış, WOS'daki yayınlar işaretlenmiş olmalıdır<br />  
-<label for="Akademisyen seçimi">Akademisyen ismini veya bölümünü yazarak seçiniz.</label>  <br />
+<label for="Akademisyen seçimi">Akademisyen ismini veya bölümünü yazarak seçiniz</label>  <br />
 <input list="academicians" id="selectAcademician" oninput="copyAcademician()" name="acadname"/>  <!-- onchange dosesn't focus, use oninput -->
 <button onclick="clearAcademician()">Sil</button> <button onclick="copyAcademician()">Tekrar ara</button> 
 
@@ -44,6 +43,7 @@ let {remote} = require('electron');
 var queryT = [];
 var academics = [[],[]];
 var rid; // researcherId
+var orcid; // ORCID
 const myUni = ' AND AD=(baskent univ)'
 function copyQueryText(chosen) {
 	var i= Number (chosen);
@@ -59,14 +59,23 @@ let acad = academics[i][2] + " "+ academics[i][3] + ", " + academics[i][4] + ", 
 		if (acad == document.getElementById('selectAcademician').value) 		
 		{ currentAcad = i;
 		rid = academics[i][7];
-		if (rid != '') { // if there is an researchId
+		orcid = academics[i][9];
+		if (rid == '' && orcid == '') {
+		document.getElementById('searchText').value = '' // delete previous query if exists
+		break;	}
+		else if (rid != '' && orcid =='')  // if there is an researchId
 			ridQuery='AI='+rid
-			if (checkBox.checked == true){
-				ridQuery=ridQuery+myUni;
+		else if (rid == '' && orcid != '')  // if there is an orcid
+			ridQuery='AI='+orcid
+		else if (rid != '' && orcid != '')  // if there are both researchId and orcid
+			ridQuery='AI='+orcid+ ' OR AI='+rid
+			
+		if (checkBox.checked == true){
+			ridQuery=ridQuery+myUni;
 					} 
 			document.getElementById('searchText').value = ridQuery; 
 			remote.getGlobal("makeSearch") (ridQuery);
-			} else document.getElementById('searchText').value = '' // delete previous query if exists
+			
 		break; }
 		}
 }
