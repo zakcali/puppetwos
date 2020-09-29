@@ -64,11 +64,11 @@ let acad = academics[i][2] + " "+ academics[i][3] + ", " + academics[i][4] + ", 
 		document.getElementById('searchText').value = '' // delete previous query if exists
 		break;	}
 		else if (rid != '' && orcid =='')  // if there is an researchId
-			ridQuery='AI='+rid
+			ridQuery='(AI='+rid+')'
 		else if (rid == '' && orcid != '')  // if there is an orcid
-			ridQuery='AI='+orcid
+			ridQuery='(AI='+orcid+')'
 		else if (rid != '' && orcid != '')  // if there are both researchId and orcid
-			ridQuery='AI='+orcid+ ' OR AI='+rid
+			ridQuery='(AI='+orcid+ ' OR AI='+rid+')'
 			
 		if (checkBox.checked == true){
 			ridQuery=ridQuery+myUni;
