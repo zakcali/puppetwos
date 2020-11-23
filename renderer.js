@@ -105,5 +105,5 @@ for (let i = 0; i < academics.length; i++) {
 		aacadList.appendChild(option); 
 		}
 	}
-
+wosBtn.disabled=false;
 } // end of window.onload
