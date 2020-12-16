@@ -50,6 +50,7 @@ const wosurl = 'https://apps.webofknowledge.com'
 const advurl = 'https://apps.webofknowledge.com/WOS_AdvancedSearch_input.do?product=WOS&search_mode=AdvancedSearch'
 
 global.makeSearch = function(advtext) {
+const queryText=advtext; // important to be able to paste instead of typing !!! 
 try {
   (async () => {
 	  if (browser == null || disconnected == true) {
@@ -95,7 +96,8 @@ try {
 	}
 		await page.waitForSelector(selectorBox);
 		await page.evaluate(selectorBox => {document.querySelector(selectorBox).value = "";}, selectorBox); // clear text area
-		await page.type(selectorBox, advtext)
+		await page.$eval(selectorBox, (el,value) => el.value = value, queryText);
+//		await page.type(selectorBox, advtext) // slooow use above line
 		await page.click('#search-button')
 		await page.waitForNavigation({waitUntil: 'networkidle2'});
 		if ((await page.$('#noRecordsDiv')) == null) { //if search found records
@@ -111,7 +113,8 @@ try {
 //		await link.click()
 		await page.waitForSelector(selectorBox);
 		await page.evaluate(selectorBox => {document.querySelector(selectorBox).value = "";}, selectorBox); // clear text area
-		await page.type(selectorBox, advtext)
+		await page.$eval(selectorBox, (el,value) => el.value = value, queryText);
+//		await page.type(selectorBox, advtext) // slooow use above line
 		await page.click('#search-button')
 		await page.waitForNavigation({waitUntil: 'networkidle2'});
 		if ((await page.$('#noRecordsDiv')) == null) { //if search found records
@@ -124,7 +127,8 @@ try {
 		page.goto(advurl)
 		await page.waitForSelector(selectorBox);
 		await page.evaluate(selectorBox => {document.querySelector(selectorBox).value = "";}, selectorBox); // clear text area
-		await page.type(selectorBox, advtext)
+		await page.$eval(selectorBox, (el,value) => el.value = value, queryText);
+//		await page.type(selectorBox, advtext) // slooow use above line
 		await page.click('#search-button')
 		await page.waitForNavigation({waitUntil: 'networkidle2'});
 		if ((await page.$('#noRecordsDiv')) == null) { //if search found records
