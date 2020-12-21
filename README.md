@@ -1,5 +1,6 @@
 # puppetwos
-Web of Science advanced search by using puppeteer
+Web of Science advanced search by using puppeteer.
+(New web site link: https://www.webofscience.com/wos/woscc/advanced-search ) can be accessed by my new program: https://github.com/zakcali/puppetwosnew
 
 # Introduction
 Web of Science is an indexing service for quality scientific publications worldwide. If you have an ip access, usually in an university campus area, you can search for publications and citations online at their web site: http://apps.webofknowledge.com/
