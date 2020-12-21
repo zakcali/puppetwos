@@ -1,5 +1,5 @@
 # puppetwos
-Web of Science advanced search by using puppeteer.
+Web of Science (current link: https://apps.webofknowledge.com/WOS_AdvancedSearch_input.do?product=WOS&search_mode=AdvancedSearch )advanced search by using puppeteer.
 (New web site link: https://www.webofscience.com/wos/woscc/advanced-search ) can be accessed by my new program: https://github.com/zakcali/puppetwosnew
 
 # Introduction
