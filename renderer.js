@@ -72,8 +72,7 @@ function openWOSw (){
 
 window.onload = async function() { 
 	
-//let csvurl= 'https://cors-anywhere.herokuapp.com/http://tip2.baskent.edu.tr/maya/department-list.csv'; // from home
-let csvurl= 'http://tip2.baskent.edu.tr/maya/department-list.csv'; // from server
+let csvurl= 'http://xxx.yyy.edu/zzz/department-list.csv'; // from server
 let response = await fetch (csvurl);
 let depCSV = await response.text();
 let results = Papa.parse(depCSV, {	//parse from csv text
@@ -89,8 +88,7 @@ var selectList = depList;
 		queryT[i] = results.data[i][1]; // query text
 			}
 		}
-// csvurl= 'https://cors-anywhere.herokuapp.com/http://tip2.baskent.edu.tr/maya/author-list.csv'; // from home
-csvurl= 'http://tip2.baskent.edu.tr/maya/author-list.csv'; // from server
+csvurl= 'http://xxx.yyy.edu.tr/zzz/author-list.csv'; // from server
 response = await fetch (csvurl);
 academicsCSV = await response.text();
 academicResults = Papa.parse(academicsCSV, {	//parse from csv text
