@@ -39,7 +39,6 @@ function createWindow () {
   // and load the index.html of the app.
   win.loadFile('index.html')
 }
-
 app.whenReady().then(createWindow)
 var browser = null
 var linkSearch = null  
@@ -49,23 +48,14 @@ var page = null
 var disconnected = false
 const WOSClassic = true
 const selectorBox = '.Adv_formBoxesSearch'
-const selectorBoxn = '.search-criteria-input' // for WOS Beta
 const searchButton = '#search-button'
-const searchButtonn = '#mat-button-focus-overlay' // for WOS Beta
 const selectorView = 'a[title="Click to view the results"]'
 const noRecordsMessage = '#noRecordsDiv' // or '.errorMessage'
-const noRecordsMessagen = '.search-error' // for WOS Beta
 const backToPrevious='div[title="Back to previous page"]'
-const backToPreviousn='#backToSearch' // for WOS Beta
 const backToSearch = 'a[title="Back to Search"]'
-const backToSearchn = 'backToSearch'
-
-
 const wosurl = 'https://apps.webofknowledge.com'
 const advurl = 'https://apps.webofknowledge.com/WOS_AdvancedSearch_input.do?product=WOS&search_mode=AdvancedSearch'
-const advurln = 'https://www.webofscience.com/wos/woscc/advanced-search'
 const title ='a[title="Use Advanced Search to Narrow Your Search to Specific Criteria"]'
-const titlen = 'a[title="Web of Science Beta"]' // for WOS Beta
 
 ipcMain.handle('makeSearch', async (event, advtext) => {
 if (advtext =='') {return;}
