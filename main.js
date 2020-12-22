@@ -46,7 +46,6 @@ var	firstSearch = true // tick SCI, SSCI, AHCI once a Chrome session
 var pages = null
 var page = null
 var disconnected = false
-const WOSClassic = true
 const selectorBox = '.Adv_formBoxesSearch'
 const searchButton = '#search-button'
 const selectorView = 'a[title="Click to view the results"]'
@@ -82,7 +81,7 @@ try {
 	linkSearch = await page.$(title) //a[title="Use Advanced Search to Narrow Your Search to Specific Criteria"]
 	if (linkSearch)    {
 		await linkSearch.click()
-	if (firstSearch && WOSClassic) // tick SCI, SSCI, AHCI once
+	if (firstSearch) // tick SCI, SSCI, AHCI once
 	{
 	firstSearch = false // don't tick // tick SCI, SSCI, AHCI anymore
 	// show indexes
@@ -109,7 +108,7 @@ try {
 //		await page.type(selectorBox, advtext) // slooow use above line
 		await page.click(searchButton)
 		await page.waitForNavigation({waitUntil: 'networkidle2'});
-		if ((await page.$(noRecordsMessage)) == null && WOSClassic) { //if search found records
+		if ((await page.$(noRecordsMessage)) == null) { //if search found records
 			await page.waitForSelector(selectorView);
 			await page.click(selectorView)
 		}
@@ -126,7 +125,7 @@ try {
 //		await page.type(selectorBox, advtext) // slooow use above line
 		await page.click(searchButton)
 		await page.waitForNavigation({waitUntil: 'networkidle2'});
-		if ((await page.$(noRecordsMessage)) == null && WOSClassic) { //if search found records
+		if ((await page.$(noRecordsMessage)) == null) { //if search found records
 			await page.waitForSelector(selectorView);
 			await page.click(selectorView)
 		}
@@ -140,7 +139,7 @@ try {
 //		await page.type(selectorBox, advtext) // slooow use above line
 		await page.click(searchButton)
 		await page.waitForNavigation({waitUntil: 'networkidle2'});
-		if ((await page.$(noRecordsMessage)) == null && WOSClassic) { //if search found records
+		if ((await page.$(noRecordsMessage)) == null) { //if search found records
 			await page.waitForSelector(selectorView);
 			await page.click(selectorView)
 		}
