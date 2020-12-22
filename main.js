@@ -1,4 +1,5 @@
 const electron = require('electron')
+const { ipcMain } = require('electron')
 const puppeteer = require('puppeteer-core')
 const os = require('os');
 const platform = os.platform();
@@ -28,7 +29,10 @@ function createWindow () {
     width: 900,
     height: 600,
     webPreferences: {
-      nodeIntegration: true
+      nodeIntegration: true,
+	  nativeWindowOpen: true,
+	  enableRemoteModule: true,
+	  worldSafeExecuteJavaScript: true 
     }
   })
 
@@ -43,13 +47,28 @@ var	firstSearch = true // tick SCI, SSCI, AHCI once a Chrome session
 var pages = null
 var page = null
 var disconnected = false
+const WOSClassic = true
 const selectorBox = '.Adv_formBoxesSearch'
+const selectorBoxn = '.search-criteria-input' // for WOS Beta
+const searchButton = '#search-button'
+const searchButtonn = '#mat-button-focus-overlay' // for WOS Beta
 const selectorView = 'a[title="Click to view the results"]'
+const noRecordsMessage = '#noRecordsDiv' // or '.errorMessage'
+const noRecordsMessagen = '.search-error' // for WOS Beta
+const backToPrevious='div[title="Back to previous page"]'
+const backToPreviousn='#backToSearch' // for WOS Beta
+const backToSearch = 'a[title="Back to Search"]'
+const backToSearchn = 'backToSearch'
+
 
 const wosurl = 'https://apps.webofknowledge.com'
 const advurl = 'https://apps.webofknowledge.com/WOS_AdvancedSearch_input.do?product=WOS&search_mode=AdvancedSearch'
+const advurln = 'https://www.webofscience.com/wos/woscc/advanced-search'
+const title ='a[title="Use Advanced Search to Narrow Your Search to Specific Criteria"]'
+const titlen = 'a[title="Web of Science Beta"]' // for WOS Beta
 
-global.makeSearch = function(advtext) {
+ipcMain.handle('makeSearch', async (event, advtext) => {
+if (advtext =='') {return;}
 const queryText=advtext; // important to be able to paste instead of typing !!! 
 try {
   (async () => {
@@ -70,10 +89,10 @@ try {
 
 	}
 	 
-	linkSearch = await page.$('a[title="Use Advanced Search to Narrow Your Search to Specific Criteria"]')
+	linkSearch = await page.$(title) //a[title="Use Advanced Search to Narrow Your Search to Specific Criteria"]
 	if (linkSearch)    {
 		await linkSearch.click()
-	if (firstSearch) // tick SCI, SSCI, AHCI once
+	if (firstSearch && WOSClassic) // tick SCI, SSCI, AHCI once
 	{
 	firstSearch = false // don't tick // tick SCI, SSCI, AHCI anymore
 	// show indexes
@@ -98,16 +117,16 @@ try {
 		await page.evaluate(selectorBox => {document.querySelector(selectorBox).value = "";}, selectorBox); // clear text area
 		await page.$eval(selectorBox, (el,value) => el.value = value, queryText);
 //		await page.type(selectorBox, advtext) // slooow use above line
-		await page.click('#search-button')
+		await page.click(searchButton)
 		await page.waitForNavigation({waitUntil: 'networkidle2'});
-		if ((await page.$('#noRecordsDiv')) == null) { //if search found records
+		if ((await page.$(noRecordsMessage)) == null && WOSClassic) { //if search found records
 			await page.waitForSelector(selectorView);
 			await page.click(selectorView)
 		}
 
 		
 	}
-	linkSearch = await page.$('a[title="Back to Search"]')
+	linkSearch = await page.$(backToSearch) // Back to search
 		if (linkSearch)    {
 		page.goto(advurl) // either this, or below
 //		await link.click()
@@ -115,23 +134,23 @@ try {
 		await page.evaluate(selectorBox => {document.querySelector(selectorBox).value = "";}, selectorBox); // clear text area
 		await page.$eval(selectorBox, (el,value) => el.value = value, queryText);
 //		await page.type(selectorBox, advtext) // slooow use above line
-		await page.click('#search-button')
+		await page.click(searchButton)
 		await page.waitForNavigation({waitUntil: 'networkidle2'});
-		if ((await page.$('#noRecordsDiv')) == null) { //if search found records
+		if ((await page.$(noRecordsMessage)) == null && WOSClassic) { //if search found records
 			await page.waitForSelector(selectorView);
 			await page.click(selectorView)
 		}
 		}
-	linkSearch = await page.$('div[title="Back to previous page"]')
+	linkSearch = await page.$(backToPrevious) // Back to previous page
 		if (linkSearch)    {
 		page.goto(advurl)
 		await page.waitForSelector(selectorBox);
 		await page.evaluate(selectorBox => {document.querySelector(selectorBox).value = "";}, selectorBox); // clear text area
 		await page.$eval(selectorBox, (el,value) => el.value = value, queryText);
 //		await page.type(selectorBox, advtext) // slooow use above line
-		await page.click('#search-button')
+		await page.click(searchButton)
 		await page.waitForNavigation({waitUntil: 'networkidle2'});
-		if ((await page.$('#noRecordsDiv')) == null) { //if search found records
+		if ((await page.$(noRecordsMessage)) == null && WOSClassic) { //if search found records
 			await page.waitForSelector(selectorView);
 			await page.click(selectorView)
 		}
@@ -142,4 +161,4 @@ try {
   console.error(err)
 }
 
-}
+})
