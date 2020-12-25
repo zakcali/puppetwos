@@ -49,7 +49,9 @@ var disconnected = false
 const selectorBox = '.Adv_formBoxesSearch'
 const searchButton = '#search-button'
 const selectorView = 'a[title="Click to view the results"]'
-const noRecordsMessage = '#noRecordsDiv' // or '.errorMessage'
+// const noRecordsMessage = '.errorMessage' 
+const noRecordsMessage = '#noRecordsDiv'
+const searchErrorMessage = '#searchErrorMessage'
 const backToPrevious='div[title="Back to previous page"]'
 const backToSearch = 'a[title="Back to Search"]'
 const wosurl = 'https://apps.webofknowledge.com'
@@ -109,7 +111,7 @@ try {
 //		await page.type(selectorBox, advtext) // slooow use above line
 		await page.click(searchButton)
 		await page.waitForNavigation({waitUntil: 'networkidle2'});
-		if ((await page.$(noRecordsMessage)) == null) { //if search found records
+		if ((await page.$(noRecordsMessage) == null) && (await page.$(searchErrorMessage) == null)) { //if search found records
 			await page.waitForSelector(selectorView);
 			await page.click(selectorView)
 		}
