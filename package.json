@@ -23,7 +23,7 @@
   },
   "homepage": "https://github.com/zakcali/puppetwos#readme",
   "devDependencies": {
-    "electron": "^11.1.0"
+    "electron": "^11.5.0"
   },
   "dependencies": {
     "papaparse": "^5.2.0",
